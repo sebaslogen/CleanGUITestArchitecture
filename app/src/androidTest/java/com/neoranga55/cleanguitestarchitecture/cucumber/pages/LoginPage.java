@@ -14,6 +14,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
  */
 public class LoginPage extends BasePage {
 
+    protected static final String SCREENSHOT_TAG = "LoginPage";
+
     /**
      * The constructor verifies that we are on the correct page by checking
      * the existence of the unique identifier elements of the page/view

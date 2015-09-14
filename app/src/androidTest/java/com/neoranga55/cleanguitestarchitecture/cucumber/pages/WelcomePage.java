@@ -13,6 +13,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
  */
 public class WelcomePage extends BasePage {
 
+    protected static final String SCREENSHOT_TAG = "WelcomePage";
+
     /**
      * The constructor verifies that we are on the correct page by checking
      * the existence of the unique identifier elements of the page/view

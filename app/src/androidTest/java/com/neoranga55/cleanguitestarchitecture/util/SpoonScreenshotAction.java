@@ -44,7 +44,7 @@ public final class SpoonScreenshotAction implements ViewAction {
      * @param testClass  Name of the class taking the screenshot (required by Spoon library)
      * @param testMethod Name of the method taking the screenshot
      */
-    public SpoonScreenshotAction(final String tag, final String testClass, final String testMethod) {
+    private SpoonScreenshotAction(final String tag, final String testClass, final String testMethod) {
         mTag = tag;
         mTestClass = testClass;
         mTestMethod = testMethod;

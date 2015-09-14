@@ -61,7 +61,7 @@ public class HelperSteps {
                     screenshotStream.close();
                 }
             } catch (final IOException ioe) {
-                throw new ScreenshotException("Error while closing stream: " + ioe);
+                throw new ScreenshotException("Error while closing screenshot stream: " + ioe);
             }
         }
     }

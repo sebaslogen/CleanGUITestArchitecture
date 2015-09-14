@@ -43,14 +43,7 @@ public class StepDefinitions extends ActivityInstrumentationTestCase2<LoginActiv
         super.tearDown();
         // All the clean up of application's data and state after each scenario must happen here
     }
-    /**
-     *
-     * Given I see the login page
-     * When I login with user name "Sebas" and password "pasión"
-     * Then I see the welcome page
-     * And the title is "Welcome Sebas"
-     *
-     */
+
     @Given("^I see the login page$")
     public void i_see_the_login_page() {
         mCurrentPage = new LoginPage();
