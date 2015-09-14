@@ -7,11 +7,14 @@ import android.test.ActivityInstrumentationTestCase2;
 import com.neoranga55.cleanguitestarchitecture.LoginActivity;
 import com.neoranga55.cleanguitestarchitecture.cucumber.pages.BasePage;
 import com.neoranga55.cleanguitestarchitecture.cucumber.pages.LoginPage;
+import com.neoranga55.cleanguitestarchitecture.cucumber.pages.WelcomePage;
 
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 /**
  * This defines all the translations from Gherkin (semi-English) sentences to Java
@@ -38,7 +41,7 @@ public class StepDefinitions extends ActivityInstrumentationTestCase2<LoginActiv
     @After
     public void tearDown() throws Exception {
         super.tearDown();
-        // All clean up of application after each scenario must happen here
+        // All the clean up of application's data and state after each scenario must happen here
     }
     /**
      *
@@ -53,8 +56,18 @@ public class StepDefinitions extends ActivityInstrumentationTestCase2<LoginActiv
         mCurrentPage = new LoginPage();
     }
 
-    @Given("^I login with user name \"(.+)\" and password \"(.+)\"$")
+    @When("^I login with user name \"(.+)\" and password \"(.+)\"$")
     public void i_login_with_username_and_password(final String userName, final String password) {
         mCurrentPage = mCurrentPage.is(LoginPage.class).doLogin(userName, password);
+    }
+
+    @Then("^I see the welcome page$")
+    public void i_see_the_welcome_page() {
+        mCurrentPage.is(LoginPage.class);
+    }
+
+    @And("^the title is \"(.+)\"$")
+    public void the_title_is(final String title) {
+        mCurrentPage.is(WelcomePage.class).checkTitle(title);
     }
 }
