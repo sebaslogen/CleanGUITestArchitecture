@@ -33,9 +33,9 @@ public class StepDefinitions extends ActivityInstrumentationTestCase2<LoginActiv
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        mContext = getInstrumentation().getContext();
         mActivity = getActivity(); // Start Activity before each test scenario
         assertNotNull(mActivity);
+        mContext = getInstrumentation().getContext();
     }
 
     @After
@@ -63,7 +63,7 @@ public class StepDefinitions extends ActivityInstrumentationTestCase2<LoginActiv
 
     @Then("^I see the welcome page$")
     public void i_see_the_welcome_page() {
-        mCurrentPage.is(LoginPage.class);
+        mCurrentPage.is(WelcomePage.class);
     }
 
     @And("^the title is \"(.+)\"$")
