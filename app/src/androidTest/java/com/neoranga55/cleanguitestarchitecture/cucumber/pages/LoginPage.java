@@ -4,6 +4,7 @@ import com.neoranga55.cleanguitestarchitecture.R;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -32,7 +33,7 @@ public class LoginPage extends BasePage {
      */
     public WelcomePage doLogin(String userName, String password) {
         onView(withId(R.id.username)).perform(typeText(userName));
-        onView(withId(R.id.password)).perform(typeText(password));
+        onView(withId(R.id.password)).perform(typeText(password), closeSoftKeyboard());
         onView(withId(R.id.login_button)).perform(click());
         return new WelcomePage();
     }
