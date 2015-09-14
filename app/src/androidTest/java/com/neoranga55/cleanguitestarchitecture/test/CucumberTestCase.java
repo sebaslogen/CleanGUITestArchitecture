@@ -1,4 +1,4 @@
-package com.neoranga55.cleanguitestarchitecture.cucumber;
+package com.neoranga55.cleanguitestarchitecture.test;
 
 import cucumber.api.CucumberOptions;
 

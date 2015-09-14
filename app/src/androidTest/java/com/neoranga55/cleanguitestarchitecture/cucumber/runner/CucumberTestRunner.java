@@ -1,4 +1,4 @@
-package com.neoranga55.cleanguitestarchitecture.cucumber;
+package com.neoranga55.cleanguitestarchitecture.cucumber.runner;
 
 import android.os.Bundle;
 

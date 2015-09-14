@@ -10,12 +10,15 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "com.neoranga55.cleanguitestarchitecture.cucumber.CucumberTestRunner"
+        testInstrumentationRunner "com.neoranga55.cleanguitestarchitecture.cucumber.runner.CucumberTestRunner"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
         }
     }
 }
@@ -26,11 +29,11 @@ dependencies {
     compile 'com.google.android.gms:play-services:7.8.0'
     // Espresso
     androidTestCompile 'com.android.support.test:runner:0.3'
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2')
-    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2')
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2'
+    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2'
     androidTestCompile 'com.android.support:support-annotations:23.0.1'
     // Cucumber
-    androidTestCompile('info.cukes:cucumber-android:1.2.2')
+    androidTestCompile 'info.cukes:cucumber-android:1.2.2'
     androidTestCompile 'info.cukes:cucumber-picocontainer:1.2.2'
     // Spoon for screenshots
     androidTestCompile 'com.squareup.spoon:spoon-client:1.1.9'
