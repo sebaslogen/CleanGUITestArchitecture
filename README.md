@@ -13,6 +13,78 @@ Open the project in Android Studio and select the gradle task '**connectedCheck*
 
 Alternative, from the command line run ```gradlew connectedCheck```
 
+In a nutshell
+-------
+The sample test code can be summarized in these three elements:
+ 
+1- Feature file describing the test scenario in English:
+```gherkin
+@ScenarioId("MyApp-135") @login-scenarios
+Scenario: User can login with valid user name and password
+    Given I see the login page
+    When I login with user name "Sebas" and password "passion"
+    Then I see the welcome page
+    And the title is "Welcome Sebas"
+```
+ 
+2- Java glue code to translate English to Java (this is a step definition):
+```java
+@Given("^I see the login page$")
+public void i_see_the_login_page() {
+    mCurrentPage = new LoginPage();
+}
+
+@When("^I login with user name \"(.+)\" and password \"(.+)\"$")
+public void i_login_with_username_and_password(final String userName, final String password) {
+    mCurrentPage = mCurrentPage.is(LoginPage.class).doLogin(userName, password);
+}
+
+@Then("^I see the welcome page$")
+public void i_see_the_welcome_page() {
+    mCurrentPage.is(WelcomePage.class);
+}
+
+@And("^the title is \"(.+)\"$")
+public void the_title_is(final String title) {
+    mCurrentPage.is(WelcomePage.class).checkTitle(title);
+}
+```
+ 
+3- Page Object class implementing the interactions between tests and tested application:
+```java
+/**
+ * Perform the login and return the next Welcome page/view
+ * @param userName Name of the user to login
+ * @param password Password of the user to login
+ * @return Welcome page/view
+ */
+public WelcomePage doLogin(String userName, String password) {
+    onView(withId(R.id.username)).perform(typeText(userName));
+    onView(withId(R.id.password)).perform(typeText(password), closeSoftKeyboard());
+    onView(withId(R.id.login_button)).perform(click());
+    return new WelcomePage();
+}
+```
+
+When your application code and test framework mature you will be doing things like this:
+- A step definition reused across multiple test scenarios:
+```gherkin
+    Given I log in to premium account
+```
+- The step definition describes a lot of steps that need to happen to perform the requested action:
+```java
+@Given("^I log in to premium account$")
+public void i_log_in_to_premium() {
+    mCurrentPage = mCurrentPage
+      .is(MainPage.class).openMenu()
+      .is(MenuPage.class).selectMenuItem("Accounts")
+      .is(AccountsPage.class).selectLoginNewAccount()
+      .is(LoginPage.class).doLogin()
+      .is(AgreementPage.class).agreeToPrivacyInformation();
+}
+```
+This step definition still hides most of the implementation details in the Page Objects that contain the actual how-to communicate with the tested application.
+
 License
 -------
 This content is released under the MIT License: http://opensource.org/licenses/MIT
