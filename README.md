@@ -13,6 +13,8 @@ Open the project in Android Studio and select the gradle task '**connectedCheck*
 
 Alternative, from the command line run ```gradlew connectedCheck```
 
+_Note: Make sure to connect a phone to the computer or start an emulator before running the tests._
+
 In a nutshell
 -------
 The sample test code can be summarized in these three elements:
@@ -66,24 +68,26 @@ public WelcomePage doLogin(String userName, String password) {
 }
 ```
 
-When your application code and test framework mature you will be doing things like this:
-- A step definition reused across multiple test scenarios:
+Advanced scenarios
+-------
+When the code of your application and tests mature enough you will be doing things like this:
+- A test step from a test scenario that can be reused across multiple tests:
 ```gherkin
-    Given I log in to premium account
+    Given I login into premium account
 ```
 - The step definition describes a lot of steps that need to happen to perform the requested action:
 ```java
-@Given("^I log in to premium account$")
+@Given("^I login into premium account$")
 public void i_log_in_to_premium() {
     mCurrentPage = mCurrentPage
       .is(MainPage.class).openMenu()
       .is(MenuPage.class).selectMenuItem("Accounts")
-      .is(AccountsPage.class).selectLoginNewAccount()
+      .is(AccountsPage.class).selectNewAccountLogin()
       .is(LoginPage.class).doLogin()
       .is(AgreementPage.class).agreeToPrivacyInformation();
 }
 ```
-This step definition still hides most of the implementation details in the Page Objects that contain the actual how-to communicate with the tested application.
+This step definition still hides most of the implementation details inside the Page Objects that contain the actual how-to communicate with the tested application.
 
 License
 -------
