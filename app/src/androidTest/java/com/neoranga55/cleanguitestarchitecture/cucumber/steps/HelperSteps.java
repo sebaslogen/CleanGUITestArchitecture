@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import cucumber.api.Scenario;
+import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 
@@ -26,6 +27,13 @@ public class HelperSteps {
 
     public static Scenario getScenario() {
         return HelperSteps.scenario;
+    }
+
+    @After
+    public static void after() {
+        if ((HelperSteps.scenario != null) && (HelperSteps.scenario.isFailed())) {
+            takeScreenshot("failed");
+        }
     }
 
     @Given("^I take a screenshot$")

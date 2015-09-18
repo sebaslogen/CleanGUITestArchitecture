@@ -36,5 +36,5 @@ dependencies {
     androidTestCompile 'info.cukes:cucumber-android:1.2.2'
     androidTestCompile 'info.cukes:cucumber-picocontainer:1.2.2'
     // Spoon for screenshots
-    androidTestCompile 'com.squareup.spoon:spoon-client:1.1.9'
+    androidTestCompile 'com.squareup.spoon:spoon-client:1.2.0'
 }
