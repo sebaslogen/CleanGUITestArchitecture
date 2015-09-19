@@ -8,6 +8,7 @@ import com.neoranga55.cleanguitestarchitecture.LoginActivity;
 import com.neoranga55.cleanguitestarchitecture.cucumber.pages.BasePage;
 import com.neoranga55.cleanguitestarchitecture.cucumber.pages.LoginPage;
 import com.neoranga55.cleanguitestarchitecture.cucumber.pages.WelcomePage;
+import com.neoranga55.cleanguitestarchitecture.util.ActivityFinisher;
 
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -22,7 +23,8 @@ import cucumber.api.java.en.When;
 public class StepDefinitions extends ActivityInstrumentationTestCase2<LoginActivity> {
 
     public static final String TAG = StepDefinitions.class.getSimpleName();
-    private Context mContext;
+    private Context mInstrumentationContext;
+    private Context mAppContext;
     private BasePage mCurrentPage;
     private Activity mActivity;
 
@@ -33,14 +35,16 @@ public class StepDefinitions extends ActivityInstrumentationTestCase2<LoginActiv
     @Before
     public void setUp() throws Exception {
         super.setUp();
+        mInstrumentationContext = getInstrumentation().getContext();
+        mAppContext = getInstrumentation().getTargetContext();
         mActivity = getActivity(); // Start Activity before each test scenario
         assertNotNull(mActivity);
-        mContext = getInstrumentation().getContext();
     }
 
     @After
     public void tearDown() throws Exception {
         super.tearDown();
+        ActivityFinisher.finishOpenActivities(); // Required for testing App with multiple activities
         // All the clean up of application's data and state after each scenario must happen here
     }
 

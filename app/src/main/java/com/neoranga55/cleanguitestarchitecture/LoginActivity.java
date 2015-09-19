@@ -138,8 +138,8 @@ public class LoginActivity extends Activity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            try { // Simulate network access with random delay
-                Thread.sleep((long)((new Random()).nextInt(10000) + 1000));
+            try { // Simulate network access with random delay between 1 and 5 seconds
+                Thread.sleep((long)((new Random()).nextInt(4000) + 1000));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -155,7 +155,7 @@ public class LoginActivity extends Activity {
             Bundle extras = new Bundle();
             extras.putString("USER", mUserName);
             intent.putExtras(extras);
-            startActivity(intent);
+            mActivity.startActivity(intent);
         }
 
         @Override
