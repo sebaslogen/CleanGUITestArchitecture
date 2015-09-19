@@ -32,6 +32,10 @@ public class LoginPage extends BasePage {
      * @return Welcome page/view
      */
     public WelcomePage doLogin(String userName, String password) {
+        // Warning: In some devices with custom software keyboards, the first time that
+        // the keyboard is opened it can have strange behaviors and delete letters typed
+        // during the typeText() method. I could reproducible this with a Swype keyboard.
+        // Solution: Change the keyboard on the device to the system's default
         onView(withId(R.id.username)).perform(typeText(userName));
         onView(withId(R.id.password)).perform(typeText(password), closeSoftKeyboard());
         onView(withId(R.id.login_button)).perform(click());
