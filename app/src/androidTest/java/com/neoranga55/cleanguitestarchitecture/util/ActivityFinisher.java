@@ -18,9 +18,9 @@ public final class ActivityFinisher implements Runnable {
         new Handler(Looper.getMainLooper()).post(new ActivityFinisher());
     }
 
-    private ActivityLifecycleMonitor activityLifecycleMonitor;
+    private final ActivityLifecycleMonitor activityLifecycleMonitor;
 
-    public ActivityFinisher() {
+    private ActivityFinisher() {
         this.activityLifecycleMonitor = ActivityLifecycleMonitorRegistry.getInstance();
     }
 
