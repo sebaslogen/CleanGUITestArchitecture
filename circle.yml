@@ -4,11 +4,15 @@ machine:
      ADB_INSTALL_TIMEOUT: 8
 test:
   override:
-    # start the emulator
+    # Start the emulator
     - emulator -avd circleci-android22 -no-audio -no-window:
         background: true
         parallel: true
-    # wait for it to have booted
+    # Wait for emulator to boot
     - circle-android wait-for-boot
-    # run tests  against the emulator.
+    # Remove the look screen
+    - adb shell input keyevent 82
+    # Build the code
+    - ./gradlew assembleDebug
+    # Run tests against the emulator
     - ./gradlew connectedAndroidTest -PdisablePreDex --stacktrace --info
