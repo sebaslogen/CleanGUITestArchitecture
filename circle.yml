@@ -1,3 +1,6 @@
+machine:
+   environment:
+     GRADLE_OPTS: -Xmx512m -XX:MaxPermSize=512m
 test:
   override:
     # start the emulator
