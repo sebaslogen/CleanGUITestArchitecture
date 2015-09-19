@@ -1,6 +1,7 @@
 machine:
    environment:
      GRADLE_OPTS: -Xmx512m -XX:MaxPermSize=512m
+     ADB_INSTALL_TIMEOUT: 8
 test:
   override:
     # start the emulator
