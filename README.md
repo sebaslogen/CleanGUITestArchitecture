@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/neoranga55/CleanGUITestArchitecture.svg?branch=master)](https://travis-ci.org/neoranga55/CleanGUITestArchitecture)
+
 # Clean GUI Test Architecture
 Sample project of Android GUI test automation using Espresso, Cucumber and the Page Object Pattern
 
@@ -18,7 +20,7 @@ _Note: Make sure to connect a phone to the computer or start an emulator before 
 In a nutshell
 -------
 The sample test code can be summarized in these three elements:
- 
+
 1- Feature file describing the test scenario in English:
 ```gherkin
 @ScenarioId("MyApp-135") @login-scenarios
@@ -28,7 +30,7 @@ Scenario: User can login with valid user name and password
     Then I see the welcome page
     And the title is "Welcome Sebas"
 ```
- 
+
 2- Java glue code to translate English to Java (this is a step definition):
 ```java
 @Given("^I see the login page$")
@@ -51,7 +53,7 @@ public void the_title_is(final String title) {
     mCurrentPage.is(WelcomePage.class).checkTitle(title);
 }
 ```
- 
+
 3- Page Object class implementing the interactions between tests and tested application:
 ```java
 /**
