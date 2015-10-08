@@ -38,7 +38,7 @@ gradle.taskGraph.afterTask { task, TaskState state ->
     }
 }
 
-// Read Cucumber tags from command line like: ./gradlew connectedDebugAndroidTest -Dtags="@login-scenarios,@kitkat"
+// Read Cucumber tags from command line like: ./gradlew connectedAndroidTest -Dtags="@login-scenarios,@kitkat"
 def getTestTags() {
     return project.hasProperty("tags") ? project.getProperties().get("tags") : ""
 }
