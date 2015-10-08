@@ -19,13 +19,14 @@ android {
         }
         debug {
             debuggable true
+            buildConfigField "String", "TEST_TAGS", "\"${getTestTags()}\""
         }
     }
 }
 
 // Task to recover Cucumber test reports
 gradle.taskGraph.afterTask { task, TaskState state ->
-    if (task == connectedDebugAndroidTest) {
+    if (task == connectedAndroidTest) {
         def reportDir = new File(project.buildDir, "cucumber-reports")
         if (!reportDir.exists()) {
             reportDir.mkdirs()
@@ -35,6 +36,11 @@ gradle.taskGraph.afterTask { task, TaskState state ->
                 ['adb', 'pull', '/mnt/sdcard/cucumber-reports/', reportDir.getAbsolutePath()])
         processBuilder.start()
     }
+}
+
+// Read Cucumber tags from command line like: ./gradlew connectedDebugAndroidTest -Dtags="@login-scenarios,@kitkat"
+def getTestTags() {
+    return project.hasProperty("tags") ? project.getProperties().get("tags") : ""
 }
 
 dependencies {
