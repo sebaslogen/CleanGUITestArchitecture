@@ -43,9 +43,9 @@ public class StepDefinitions extends ActivityInstrumentationTestCase2<LoginActiv
 
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
         ActivityFinisher.finishOpenActivities(); // Required for testing App with multiple activities
         // All the clean up of application's data and state after each scenario must happen here
+        super.tearDown(); // This step scrubs everything in this class so always call it last
     }
 
     @Given("^I see the login page$")
