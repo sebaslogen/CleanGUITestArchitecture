@@ -26,7 +26,7 @@ public final class ActivityFinisher implements Runnable {
 
     @Override
     public void run() {
-        final List<Activity> activities = new ArrayList<Activity>();
+        final List<Activity> activities = new ArrayList<>();
 
         for (final Stage stage : EnumSet.range(Stage.CREATED, Stage.STOPPED)) {
             activities.addAll(activityLifecycleMonitor.getActivitiesInStage(stage));

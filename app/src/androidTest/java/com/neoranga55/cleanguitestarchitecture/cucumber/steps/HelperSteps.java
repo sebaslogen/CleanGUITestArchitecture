@@ -59,8 +59,10 @@ public class HelperSteps {
         try {
             screenshotStream = new FileInputStream(screenshot);
             final byte fileContent[] = new byte[(int) screenshot.length()];
-            screenshotStream.read(fileContent); // Read data from input image file into an array of bytes
-            scenario.embed(fileContent, "image/png"); // Embed the screenshot in the report under current test step
+            final int readImageBytes = screenshotStream.read(fileContent); // Read data from input image file into an array of bytes
+            if (readImageBytes != -1) {
+                scenario.embed(fileContent, "image/png"); // Embed the screenshot in the report under current test step
+            }
         } catch (final IOException ioe) {
             throw new ScreenshotException("Exception while reading file " + ioe);
         } finally {
@@ -69,6 +71,7 @@ public class HelperSteps {
                     screenshotStream.close();
                 }
             } catch (final IOException ioe) {
+                //noinspection ThrowFromFinallyBlock
                 throw new ScreenshotException("Error while closing screenshot stream: " + ioe);
             }
         }
