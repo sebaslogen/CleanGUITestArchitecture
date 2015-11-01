@@ -11,11 +11,14 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.neoranga55.cleanguitestarchitecture.support.util.CountingIdlingResourceListener;
 
 import java.util.Random;
 
@@ -34,6 +37,11 @@ public class LoginActivity extends Activity {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private static CountingIdlingResourceListener sIdlingNotificationListener;
+
+    public static void setIdlingNotificationListener(CountingIdlingResourceListener idlingNotificationListener) {
+        sIdlingNotificationListener = idlingNotificationListener;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +70,28 @@ public class LoginActivity extends Activity {
                 attemptLogin();
             }
         });
+        // Shown the login button with a nice animation
+        // only a 3 seconds after the application has started (app is idle in the meantime)
+        emailSignInButton.setAlpha(0);
+        emailSignInButton.setTranslationY(500);
+        emailSignInButton.animate()
+                .setStartDelay(3000)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .translationY(0)
+                .alpha(1)
+                .setDuration(2000)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        if (sIdlingNotificationListener != null) {
+                            sIdlingNotificationListener.decrement(); // Resource is idle again
+                        }
+                    }
+                });
+        if (sIdlingNotificationListener != null) {
+            sIdlingNotificationListener.increment(); // Notify that our animation resource is busy
+        }
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
