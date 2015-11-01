@@ -65,12 +65,9 @@ public class StepDefinitions extends ActivityInstrumentationTestCase2<LoginActiv
      * finally select the name of your app package from the list of processes displayed.
      */
     @Given("^I wait for manual attachment of the debugger$")
-    public void wait_for_manual_attachment_of_debugger() {
+    public void wait_for_manual_attachment_of_debugger() throws InterruptedException {
         while (!Debug.isDebuggerConnected()) {
-            try {
-                Thread.sleep(1000);
-            } catch (final InterruptedException ignored) {
-            }
+            Thread.sleep(1000);
         }
     }
 
