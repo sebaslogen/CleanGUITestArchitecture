@@ -7,7 +7,7 @@ import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.view.View;
 
-import com.squareup.spoon.Spoon;
+import com.jraska.falcon.FalconSpoon;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
@@ -62,7 +62,7 @@ public final class SpoonScreenshotAction implements ViewAction {
 
     @Override
     public void perform(final UiController uiController, final View view) {
-        lastScreenshot = Spoon.screenshot(getActivity(view), mTag, mTestClass, mTestMethod);
+        lastScreenshot = FalconSpoon.screenshot(getActivity(view), mTag, mTestClass, mTestMethod);
     }
 
     /**
