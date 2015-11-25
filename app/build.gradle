@@ -62,5 +62,4 @@ dependencies {
     androidTestCompile 'info.cukes:cucumber-jvm-deps:1.0.3'
     // Screenshots
     androidTestCompile 'com.squareup.spoon:spoon-client:1.2.0'
-    androidTestCompile 'com.jraska:falcon-spoon-compat:0.3.1'
 }
