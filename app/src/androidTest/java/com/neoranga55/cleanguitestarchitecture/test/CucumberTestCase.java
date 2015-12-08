@@ -15,7 +15,7 @@ import cucumber.api.CucumberOptions;
 @CucumberOptions(features = "features", // Test scenarios
         glue = {"com.neoranga55.cleanguitestarchitecture.cucumber.steps"}, // Steps definitions
         format = {"pretty", // Cucumber report formats and location to store them in phone
-                "html:/data/data/com.neoranga55.cleanguitestarchitecture/cucumber-reports/html-report",
+                "html:/data/data/com.neoranga55.cleanguitestarchitecture/cucumber-reports/cucumber-html-report",
                 "json:/data/data/com.neoranga55.cleanguitestarchitecture/cucumber-reports/cucumber.json",
                 "junit:/data/data/com.neoranga55.cleanguitestarchitecture/cucumber-reports/cucumber.xml"
         },

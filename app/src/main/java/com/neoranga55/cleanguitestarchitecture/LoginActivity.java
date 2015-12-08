@@ -75,7 +75,7 @@ public class LoginActivity extends Activity {
         emailSignInButton.setAlpha(0);
         emailSignInButton.setTranslationY(500);
         emailSignInButton.animate()
-                .setStartDelay(3000)
+                .setStartDelay(1000)
                 .setInterpolator(new AccelerateDecelerateInterpolator())
                 .translationY(0)
                 .alpha(1)
