@@ -1,14 +1,19 @@
 language: android
 # Use the Travis Container-Based Infrastructure
 sudo: false
+cache:
+  directories:
+    - $HOME/.gradle/caches/2.9
+    - $HOME/.gradle/daemon
+    - $HOME/.gradle/native
+    - $HOME/.gradle/wrapper
 env:
   global:
     - GRADLE_OPTS="-Xmx512m -XX:MaxPermSize=512m"
     - ADB_INSTALL_TIMEOUT=8
 android:
   components:
-    # Uncomment the lines below if you want to
-    # use the latest revision of Android SDK Tools
+    # Latest revision of Android SDK Tools
     - platform-tools
     - tools
 
@@ -33,6 +38,7 @@ before_script:
   - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
   - sleep 180
+  - adb devices
   - adb shell input keyevent 82 &
 script:
   - ./gradlew connectedCheck -PdisablePreDex
