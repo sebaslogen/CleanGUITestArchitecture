@@ -21,5 +21,7 @@ import cucumber.api.CucumberOptions;
         },
         tags={"~@manual", "@login-scenarios"}
 )
+// This class must be in a different package than the glue code
+// (this class is in '...cucumber.test' and glue is in '...cucumber.steps')
 public class CucumberTestCase {
 }

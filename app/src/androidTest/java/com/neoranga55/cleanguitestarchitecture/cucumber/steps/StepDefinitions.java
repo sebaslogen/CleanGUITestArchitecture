@@ -46,7 +46,6 @@ public class StepDefinitions extends ActivityInstrumentationTestCase2<LoginActiv
         Espresso.registerIdlingResources(mCountingIdlingResourceListener.getCountingIdlingResource());
         mActivity = getActivity(); // Start Activity before each test scenario
         assertNotNull(mActivity);
-
     }
 
     @After
