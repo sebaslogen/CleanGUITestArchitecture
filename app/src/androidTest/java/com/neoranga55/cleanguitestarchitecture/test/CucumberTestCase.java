@@ -23,5 +23,5 @@ import cucumber.api.CucumberOptions;
 )
 // This class must be in a different package than the glue code
 // (this class is in '...cucumber.test' and glue is in '...cucumber.steps')
-public class CucumberTestCase {
+class CucumberTestCase {
 }

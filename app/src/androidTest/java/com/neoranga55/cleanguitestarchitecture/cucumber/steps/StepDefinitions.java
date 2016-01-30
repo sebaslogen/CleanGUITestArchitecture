@@ -3,6 +3,7 @@ package com.neoranga55.cleanguitestarchitecture.cucumber.steps;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Debug;
+import android.os.PowerManager;
 import android.support.test.espresso.Espresso;
 import android.test.ActivityInstrumentationTestCase2;
 
@@ -23,6 +24,7 @@ import cucumber.api.java.en.When;
 /**
  * This defines all the translations from Gherkin (semi-English) sentences to Java
  */
+@SuppressWarnings("JUnitTestCaseWithNoTests")
 public class StepDefinitions extends ActivityInstrumentationTestCase2<LoginActivity> {
 
     public static final String TAG = StepDefinitions.class.getSimpleName();
@@ -30,6 +32,7 @@ public class StepDefinitions extends ActivityInstrumentationTestCase2<LoginActiv
     private Context mAppContext;
     private BasePage mCurrentPage;
     private Activity mActivity;
+    private PowerManager.WakeLock mFullWakeUpLock;
     private CountingIdlingResourceListenerImpl mCountingIdlingResourceListener;
 
     public StepDefinitions() {
@@ -45,6 +48,11 @@ public class StepDefinitions extends ActivityInstrumentationTestCase2<LoginActiv
         LoginActivity.setIdlingNotificationListener(mCountingIdlingResourceListener);
         Espresso.registerIdlingResources(mCountingIdlingResourceListener.getCountingIdlingResource());
         mActivity = getActivity(); // Start Activity before each test scenario
+        final PowerManager powerManager = (PowerManager) mActivity.getSystemService(Context.POWER_SERVICE);
+        //noinspection deprecation
+        mFullWakeUpLock = powerManager.newWakeLock((PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "FULL WAKE UP LOCK");
+        // This will turn on the screen during the test (lock screen still needs to be always disabled)
+        mFullWakeUpLock.acquire();
         assertNotNull(mActivity);
     }
 
@@ -53,6 +61,9 @@ public class StepDefinitions extends ActivityInstrumentationTestCase2<LoginActiv
         LoginActivity.setIdlingNotificationListener(null);
         Espresso.unregisterIdlingResources(mCountingIdlingResourceListener.getCountingIdlingResource());
         ActivityFinisher.finishOpenActivities(); // Required for testing App with multiple activities
+        if (mFullWakeUpLock != null) {
+            mFullWakeUpLock.release();
+        }
         // All the clean up of application's data and state after each scenario must happen here
         super.tearDown(); // This step scrubs everything in this class so always call it last
     }
