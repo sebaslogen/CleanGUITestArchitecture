@@ -27,8 +27,11 @@ import cucumber.api.java.en.When;
 @SuppressWarnings("JUnitTestCaseWithNoTests")
 public class StepDefinitions extends ActivityInstrumentationTestCase2<LoginActivity> {
 
+    @SuppressWarnings("unused")
     public static final String TAG = StepDefinitions.class.getSimpleName();
+    @SuppressWarnings("unused")
     private Context mInstrumentationContext;
+    @SuppressWarnings("unused")
     private Context mAppContext;
     private BasePage mCurrentPage;
     private Activity mActivity;
@@ -44,28 +47,43 @@ public class StepDefinitions extends ActivityInstrumentationTestCase2<LoginActiv
         super.setUp();
         mInstrumentationContext = getInstrumentation().getContext();
         mAppContext = getInstrumentation().getTargetContext();
+        registerIdlingResources();
+        mActivity = getActivity(); // Start Activity before each test scenario
+        assertNotNull(mActivity);
+        turnOnScreenOfTestDevice();
+    }
+
+    private void registerIdlingResources() {
         mCountingIdlingResourceListener = new CountingIdlingResourceListenerImpl("ButtonAnimationStarter");
         LoginActivity.setIdlingNotificationListener(mCountingIdlingResourceListener);
         Espresso.registerIdlingResources(mCountingIdlingResourceListener.getCountingIdlingResource());
-        mActivity = getActivity(); // Start Activity before each test scenario
+    }
+
+    private void turnOnScreenOfTestDevice() {
         final PowerManager powerManager = (PowerManager) mActivity.getSystemService(Context.POWER_SERVICE);
         //noinspection deprecation
         mFullWakeUpLock = powerManager.newWakeLock((PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "FULL WAKE UP LOCK");
         // This will turn on the screen during the test (lock screen still needs to be always disabled)
         mFullWakeUpLock.acquire();
-        assertNotNull(mActivity);
     }
 
+    /**
+     * All the clean up of application's data and state after each scenario must happen here
+     * The last call of this method should always be the call to parent's tear down method
+     */
     @After
     public void tearDown() throws Exception {
         LoginActivity.setIdlingNotificationListener(null);
         Espresso.unregisterIdlingResources(mCountingIdlingResourceListener.getCountingIdlingResource());
         ActivityFinisher.finishOpenActivities(); // Required for testing App with multiple activities
+        letScreenOfTestDeviceTurnOff();
+        super.tearDown(); // This step scrubs everything in this class so always call it last
+    }
+
+    private void letScreenOfTestDeviceTurnOff() {
         if (mFullWakeUpLock != null) {
             mFullWakeUpLock.release();
         }
-        // All the clean up of application's data and state after each scenario must happen here
-        super.tearDown(); // This step scrubs everything in this class so always call it last
     }
 
     /**
