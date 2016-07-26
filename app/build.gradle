@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.1"
 
     defaultConfig {
         applicationId "com.neoranga55.cleanguitestarchitecture"
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "com.neoranga55.cleanguitestarchitecture.cucumber.runner.CucumberTestRunner"
@@ -21,6 +21,10 @@ android {
             debuggable true
             buildConfigField "String", "TEST_TAGS", "\"${getTestTags()}\""
         }
+    }
+    packagingOptions {
+        exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
+        exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
     }
 }
 
@@ -47,23 +51,25 @@ def getTestTags() {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:24.1.1'
     // Espresso
-    androidTestCompile ('com.android.support.test:runner:0.4.1') {
-        exclude module: 'support-annotations'
-        exclude module: 'support-v4'
-        exclude module: 'recyclerview-v7'
+    androidTestCompile('com.android.support.test:runner:0.5') {
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'recyclerview-v7'
     }
-    androidTestCompile ('com.android.support.test.espresso:espresso-core:2.2.1') {
-        exclude module: 'support-annotations'
-        exclude module: 'support-v4'
-        exclude module: 'recyclerview-v7'
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'recyclerview-v7'
     }
-    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.2.1') {
-        exclude module: 'support-annotations'
-        exclude module: 'support-v4'
-        exclude module: 'recyclerview-v7'
+    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.2') {
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'recyclerview-v7'
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+        exclude group: 'com.android.support', module: 'design'
     }
     // Cucumber
     androidTestCompile('info.cukes:cucumber-android:1.2.4') {
