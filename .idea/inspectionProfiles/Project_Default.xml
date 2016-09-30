@@ -2,5 +2,12 @@
   <profile version="1.0">
     <option name="myName" value="Project Default" />
     <inspection_tool class="AndroidLintDrawAllocation" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="SSBasedInspection" enabled="true" level="ERROR" enabled_by_default="true">
+      <replaceConfiguration name="Escape apostrophes in Android string XMLs" text="&lt;string $attributes$&gt;$text$&lt;/string&gt;" recursive="false" caseInsensitive="true" type="XML" reformatAccordingToStyle="true" shortenFQN="true" useStaticImport="true" replacement="&lt;string $attributes$&gt;$fixedText$&lt;/string&gt;">
+        <constraint name="attributes" within="" contains="" />
+        <constraint name="text" regexp=".*[^\\]'.*" maxCount="2147483647" within="" contains="" />
+        <variableDefinition name="fixedText" script="&quot;text.getValue().replaceAll( &quot;\\\\'|\'&quot;, &quot;\\\\'&quot; )&quot;" />
+      </replaceConfiguration>
+    </inspection_tool>
   </profile>
 </component>
