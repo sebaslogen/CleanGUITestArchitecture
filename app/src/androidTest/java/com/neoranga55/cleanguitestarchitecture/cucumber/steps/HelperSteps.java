@@ -1,5 +1,8 @@
 package com.neoranga55.cleanguitestarchitecture.cucumber.steps;
 
+import android.app.Instrumentation;
+import android.os.Build;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.EspressoException;
 
 import com.neoranga55.cleanguitestarchitecture.util.SpoonScreenshotAction;
@@ -13,6 +16,8 @@ import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 
+import static android.support.test.InstrumentationRegistry.getTargetContext;
+
 /**
  * Class containing generic Cucumber test step definitions not related to specific views
  */
@@ -23,6 +28,7 @@ public class HelperSteps {
     @Before
     public static void before(final Scenario scenario) {
         HelperSteps.scenario = scenario;
+        grantWritePermissionsForScreenshots();
     }
 
     public static Scenario getScenario() {
@@ -36,9 +42,20 @@ public class HelperSteps {
         }
     }
 
-    @Given("^I take a screenshot$")
-    public void i_take_a_screenshot() {
-        takeScreenshot("screenshot");
+    private static void grantWritePermissionsForScreenshots() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            try {
+                Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
+                String appPackage = getTargetContext().getPackageName();
+                instrumentation.getUiAutomation().executeShellCommand("pm grant " + appPackage
+                    + " android.permission.READ_EXTERNAL_STORAGE");
+                instrumentation.getUiAutomation().executeShellCommand("pm grant " + appPackage
+                    + " android.permission.WRITE_EXTERNAL_STORAGE");
+            } catch (Exception e) {
+                throw new RuntimeException(
+                    "Exception while granting external storage access to application apk", e);
+            }
+        }
     }
 
     /**
@@ -75,6 +92,11 @@ public class HelperSteps {
                 throw new ScreenshotException("Error while closing screenshot stream: " + ioe);
             }
         }
+    }
+
+    @Given("^I take a screenshot$")
+    public void i_take_a_screenshot() {
+        takeScreenshot("screenshot");
     }
 
     public static class ScreenshotException extends RuntimeException implements EspressoException {
