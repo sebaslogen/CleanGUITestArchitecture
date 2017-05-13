@@ -1,8 +1,6 @@
 package com.neoranga55.cleanguitestarchitecture.util;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.view.View;
@@ -23,19 +21,10 @@ import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
  */
 public final class SpoonScreenshotAction implements ViewAction {
 
+    private static File lastScreenshot;
     private final String mTag;
     private final String mTestClass;
     private final String mTestMethod;
-    private static File lastScreenshot;
-
-    /**
-     * Get the last captured screenshot file
-     *
-     * @return Last screenshot file handler or null if there was no screenshot taken
-     */
-    public static File getLastScreenshot() {
-        return lastScreenshot;
-    }
 
     /**
      * Initialize with information required to take a screenshot
@@ -48,6 +37,38 @@ public final class SpoonScreenshotAction implements ViewAction {
         mTag = tag;
         mTestClass = testClass;
         mTestMethod = testMethod;
+    }
+
+    /**
+     * Get the last captured screenshot file
+     *
+     * @return Last screenshot file handler or null if there was no screenshot taken
+     */
+    public static File getLastScreenshot() {
+        return lastScreenshot;
+    }
+
+    /**
+     * Get the activity from the context of the view
+     *
+     * @param view View from which the activity will be inferred
+     * @return Activity that contains the given view
+     */
+    private static Activity getActivity(final View view) {
+        return (Activity) view.findViewById(android.R.id.content).getContext();
+    }
+
+    /**
+     * Espresso action to be take a screenshot of the current activity
+     * This must be called directly from the test method
+     *
+     * @param tag Name of the screenshot to include in the file name
+     */
+    public static void perform(final String tag) {
+        final StackTraceElement[] trace = Thread.currentThread().getStackTrace();
+        final String testClass = trace[3].getClassName();
+        final String testMethod = trace[3].getMethodName();
+        onView(isRoot()).perform(new SpoonScreenshotAction(tag, testClass, testMethod));
     }
 
     @Override
@@ -63,37 +84,5 @@ public final class SpoonScreenshotAction implements ViewAction {
     @Override
     public void perform(final UiController uiController, final View view) {
         lastScreenshot = Spoon.screenshot(getActivity(view), mTag, mTestClass, mTestMethod);
-    }
-
-    /**
-     * Get the activity from the context of the view
-     *
-     * @param view View from which the activity will be inferred
-     * @return Activity that contains the given view
-     */
-    private static Activity getActivity(final View view) {
-        Context context = view.getContext();
-        while (!(context instanceof Activity)) {
-            if (context instanceof ContextWrapper) {
-                context = ((ContextWrapper) context).getBaseContext();
-            } else {
-                throw new IllegalStateException("Got a context of class " + context.getClass() + " and I don't know " +
-                        "how to get the Activity from it");
-            }
-        }
-        return (Activity) context;
-    }
-
-    /**
-     * Espresso action to be take a screenshot of the current activity
-     * This must be called directly from the test method
-     *
-     * @param tag Name of the screenshot to include in the file name
-     */
-    public static void perform(final String tag) {
-        final StackTraceElement[] trace = Thread.currentThread().getStackTrace();
-        final String testClass = trace[3].getClassName();
-        final String testMethod = trace[3].getMethodName();
-        onView(isRoot()).perform(new SpoonScreenshotAction(tag, testClass, testMethod));
     }
 }
