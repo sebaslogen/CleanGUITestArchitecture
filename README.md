@@ -18,7 +18,7 @@ Alternative, from the command line run ```gradlew connectedCheck```
 Cucumber supports **filtering execution of test scenarios with tags** (i.e. @login-scenarios). To filter by tags you have the following options (which can't be combined):
 - Hard coded tags in annotation ```@CucumberOptions``` inside ```CucumberTestCase.java```
 - Use parameters in command line like ```./gradlew connectedAndroidTest -Ptags="@login-scenarios,@kitkat"```
-- In Android Studio create a new configuration of type `Android Tests` and under the `Extra options` add something like `-e tags @login-scenarios,@kitkat`
+- In Android Studio, run connectedAndroidTest in the right Gradle tab and then edit the run configuration to add under the `Script parameters` something like `-Ptags="@login-scenarios,@kitkat"`
 
 More information about how to use and combine [Cucumber tags here](https://github.com/cucumber/cucumber/wiki/Tags).
 
