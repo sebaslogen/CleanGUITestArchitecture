@@ -14,10 +14,12 @@ import cucumber.api.CucumberOptions;
  */
 @CucumberOptions(features = "features", // Test scenarios
         glue = {"com.neoranga55.cleanguitestarchitecture.cucumber.steps"}, // Steps definitions
-        format = {"pretty", // Cucumber report formats and location to store them in phone
-                "html:/data/data/com.neoranga55.cleanguitestarchitecture/cucumber-reports/cucumber-html-report",
-                "json:/data/data/com.neoranga55.cleanguitestarchitecture/cucumber-reports/cucumber.json",
-                "junit:/data/data/com.neoranga55.cleanguitestarchitecture/cucumber-reports/cucumber.xml"
+        format = {"pretty", // Cucumber report formats and location to store them in phone/emulator
+                "html:/mnt/sdcard/cucumber-reports/cucumber-html-report",
+                "json:/mnt/sdcard/cucumber-reports/cucumber.json",
+                "junit:/mnt/sdcard/cucumber-reports/cucumber.xml"
+            // Note: if you don't have write access to /mnt/sdcard/ on the phone use instead
+            // the following path here and in the build.gradle: /data/data/com.neoranga55.cleanguitestarchitecture/cucumber-reports/
         },
         tags={"~@manual", "@login-scenarios"}
 )
